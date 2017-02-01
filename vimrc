@@ -1,3 +1,6 @@
+" type this command
+" rm -rf ~/.vim ~/.vimrc && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && mkdir -p ~/.vim/colors/ && curl http://termbin.com/kxkl > ~/.vim/colors/gruvbox.vim && curl http://termbin.com/7es0 > ~/.vimrc && vim -c PluginInstall!
+
 set t_Co=256
 set nocompatible              " be iMproved, required
 filetype off                  " required
