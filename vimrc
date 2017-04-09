@@ -1,6 +1,3 @@
-" type this command
-" rm -rf ~/.vim ~/.vimrc && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && mkdir -p ~/.vim/colors/ && curl http://termbin.com/kxkl > ~/.vim/colors/gruvbox.vim && curl http://termbin.com/7es0 > ~/.vimrc && vim -c PluginInstall!
-
 set t_Co=256
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -106,8 +103,8 @@ Plugin 'skywind3000/asyncrun.vim'
 Plugin 'sjl/gundo.vim'
 " Plugin 'bling/vim-bufferline'
 
-
-
+Plugin 'rudes/vim-java'
+Plugin 'udalov/kotlin-vim'
 call vundle#end()
 filetype plugin indent on
 
@@ -458,3 +455,95 @@ nnoremap L gt
 
 
 nnoremap <leader>/ /
+
+" Tell Vundle to download & import the clang complete plugin
+Bundle 'Rip-Rip/clang_complete'
+
+" Disable auto completion, always <c-x> <c-o> to complete
+let g:clang_complete_auto = 0
+let g:clang_use_library = 1
+let g:clang_periodic_quickfix = 0
+let g:clang_close_preview = 1
+
+" For Objective-C, this needs to be active, otherwise multi-parameter methods won't be completed correctly
+let g:clang_snippets = 1
+
+" Snipmate does not work anymore, ultisnips is the recommended plugin
+let g:clang_snippets_engine = 'ultisnips'
+
+" This might change depending on your installation
+let g:clang_exec = '/usr/local/bin/clang'
+let g:clang_library_path = '/usr/local/lib/libclang.dylib'
+
+" Vim syntax file
+" Language   : Kotlin (http://jetbrains.com/kotlin)
+" Maintainers: Sergey Ignatov <sergey.ignatov@jetbrains.com>
+" Last Change: 2011 December 26
+
+" Usage:
+" Add to .vimrc
+" au BufRead,BufNewFile *.kt  set filetype=kotlin
+" au BufRead,BufNewFile *.jet set filetype=kotlin
+" au Syntax kotlin source ~/.vim/syntax/kotlin.vim
+
+if version < 600
+  syntax clear
+elseif exists("b:current_syntax")
+  finish
+endif
+
+syn keyword kotlinExternal     import package
+syn keyword kotlinConditional  if then else
+syn keyword kotlinRepeat       while for do
+syn keyword kotlinType         type
+syn keyword kotlinStatement    val var
+syn keyword kotlinStatement    return
+syn keyword kotlinBoolean      true false
+syn keyword kotlinConstant     null
+syn keyword kotlinTypedef      this super
+syn keyword kotlinLangClass    Any Unit String Array Int Boolean Char Long Double Float Short Byte
+syn keyword kotlinClassMod     abstract final enum open attribute
+syn keyword kotlinScopeDecl    public private protected
+syn keyword kotlinStorageClass abstract final open override
+syn keyword kotlinExceptions   throw try catch finally
+syn keyword kotlinTypedef      class trait object
+
+syn match   kotlinNumber       "\<\(0[0-7]*\|0[xX]\x\+\|\d\+\)\=\>"
+syn match   kotlinNumber       "\(\<\d\+\.\d*\|\.\d\+\)\([eE][-+]\=\d\+\)\=[fFdD]\="
+
+syn region  kotlinString       start=+"+ end=+"+
+syn region  kotlinString       start=+'+ end=+'+
+syn region  kotlinString       start=+"""+ end=+"""+
+
+syn match   kotlinFunction     "\s*\<fun\>"
+
+syn region  kotlinComment      start="/\*" end="\*/"
+syn match   kotlinLineComment  "//.*"
+
+if !exists("did_kotlin_syntax_inits")
+    let did_kotlin_syntax_inits = 1    
+    
+    hi link kotlinExternal     Include
+    hi link kotlinStatement    Statement
+    hi link kotlinConditional  Conditional
+    hi link kotlinRepeat       Repeat
+    hi link kotlinType         Type
+    hi link kotlinTypedef      Typedef
+    hi link kotlinVardef       Typedef
+    hi link kotlinBoolean      Boolean
+    hi link kotlinFunction     Function
+    hi link kotlinLangClass    Constant
+    hi link kotlinConstant     Constant
+    hi link kotlinScopeDecl    kotlinStorageClass
+    hi link kotlinClassDecl    kotlinStorageClass
+    hi link kotlinClassMod     kotlinStorageClass
+    hi link kotlinStorageClass StorageClass
+    hi link kotlinExceptions   Exception
+    hi link kotlinOperator     Operator
+    hi link kotlinNumber       Number
+    hi link kotlinString       String
+    hi link kotlinComment      Comment
+    hi link kotlinLineComment  Comment
+endif
+
+let b:current_syntax = "kotlin"
